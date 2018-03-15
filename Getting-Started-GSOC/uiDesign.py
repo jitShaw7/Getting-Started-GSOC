@@ -1,6 +1,8 @@
 from PyQt5.QtWidgets import (QApplication, QCheckBox, QGridLayout, QGroupBox, 
-                        QLabel, QLineEdit, QMessageBox, QPushButton, QVBoxLayout,
-                        QWidget)
+                        QLabel, QLineEdit, QMessageBox, QProgressBar, QPushButton, 
+                        QVBoxLayout, QWidget)
+
+import mailingList
 
 class MainWindow(QWidget):
     
@@ -8,7 +10,6 @@ class MainWindow(QWidget):
         super(MainWindow, self).__init__()
 
         self.createPageComponents()
-        self.createProgressBar()
 
         mainLayout = QVBoxLayout()
         mainLayout.addWidget(self.groupBox)
@@ -20,7 +21,7 @@ class MainWindow(QWidget):
 
 
     def createPageComponents(self):
-        self.groupBox = QGroupBox('Step 1: Subscribing to Mailing Lists')
+        self.groupBox = QGroupBox('Subscribing to Mailing Lists')
 
         layout = QVBoxLayout()
 
@@ -49,11 +50,8 @@ class MainWindow(QWidget):
 
         self.groupBox.setLayout(layout)
 
-    def createProgressBar(self):
-        pass
-
     def subscribeMailingList(self):
-        print(self.editorUserEmail.text(), self.checkBox1.isChecked(), self.checkBox2.isChecked())
+        check = 0
         if not self.checkBox1.isChecked() and not self.checkBox2.isChecked():
             msgBox = QMessageBox()
             msgBox.setIcon(QMessageBox.Critical)
@@ -62,6 +60,8 @@ class MainWindow(QWidget):
             msgBox.setDetailedText("You need to select at least one Mailing List.")
             msgBox.setStandardButtons(QMessageBox.Ok)
             msgBox.exec_()
+        else:
+            check += 1
 
         if '@' not in self.editorUserEmail.text():
             msgBox2 = QMessageBox()
@@ -70,6 +70,32 @@ class MainWindow(QWidget):
             msgBox2.setText('Enter Proper Email Address')
             msgBox2.setStandardButtons(QMessageBox.Ok)
             msgBox2.exec_()
+        else:
+            check += 1
+
+        optionList = []
+        if self.checkBox1.isChecked():
+            optionList.append(self.checkBox1.text())
+        if self.checkBox2.isChecked():
+            optionList.append(self.checkBox2.text())
+
+        if check == 2:
+            value = mailingList.subscribe(self.editorUserEmail.text(), optionList)
+            if value == 1:
+                msgBox3 = QMessageBox()
+                msgBox3.setWindowTitle('Success!')
+                msgBox3.setText('Subscription Successful...')
+                msgBox3.setStandardButtons(QMessageBox.Ok)
+                msgBox3.exec_()
+            else:
+                msgBox4 = QMessageBox()
+                msgBox4.setIcon(QMessageBox.Critical)
+                msgBox4.setWindowTitle('Error')
+                msgBox4.setText('Subscription Unsuccessful...')
+                msgBox4.setDetailedText('''There was some error while trying to Subscribe you to the selected mailing lists. Please make sure you are connected to the internet and your email address is valid.''')
+                msgBox4.setStandardButtons(QMessageBox.Ok)
+                msgBox4.exec_()
+
 
 if __name__ == '__main__':
     import sys

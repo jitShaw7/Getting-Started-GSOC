@@ -15,7 +15,7 @@ class MainWindow(QWidget):
         mainLayout.addWidget(self.groupBox)
         self.setLayout(mainLayout)
 
-        self.setGeometry(100, 100, 600, 100)
+        self.setGeometry(100, 100, 600, 300)
         self.setWindowTitle("Getting Started-GSOC")
         self.show()
 
@@ -32,14 +32,35 @@ class MainWindow(QWidget):
         self.checkBox1.toggle()
         checkBox1_decription = QLabel(': Discussion of Debian\'s participation in internship-like programs, such as Outreachy, GSOC')
         self.checkBox2 = QCheckBox('debian-user')
+        self.checkBox2.toggle()
         checkBox2_decription = QLabel(': Support for Debian users who speak English.')
+        self.checkBox3 = QCheckBox('debian-announce')
+        self.checkBox3.toggle()
+        checkBox3_decription = QLabel(': Major news and very important changes in the project are announced here.')
+        self.checkBox4 = QCheckBox('debian-news')
+        self.checkBox4.toggle()
+        checkBox4_decription = QLabel(': General news about the distribution and the project.')
+        self.checkBox5 = QCheckBox('debian-devel-announce')
+        self.checkBox5.toggle()
+        checkBox5_decription = QLabel(': Announcements of development issues like policy changes, important release issues.')
+        self.checkBox6 = QCheckBox('debconf-announce')
+        self.checkBox6.toggle()
+        checkBox6_decription = QLabel(': Important news about Debconf.')
+
         sublayout.addWidget(labelUserEmail, 0, 0)
         sublayout.addWidget(self.editorUserEmail, 0, 1)
         sublayout.addWidget(self.checkBox1, 1, 0)
         sublayout.addWidget(checkBox1_decription, 1,1)
         sublayout.addWidget(self.checkBox2, 2, 0)
         sublayout.addWidget(checkBox2_decription, 2, 1)
-
+        sublayout.addWidget(self.checkBox3, 3, 0)
+        sublayout.addWidget(checkBox3_decription, 3, 1)
+        sublayout.addWidget(self.checkBox4, 4, 0)
+        sublayout.addWidget(checkBox4_decription, 4, 1)
+        sublayout.addWidget(self.checkBox5, 5, 0)
+        sublayout.addWidget(checkBox5_decription, 5, 1)
+        sublayout.addWidget(self.checkBox6, 6, 0)
+        sublayout.addWidget(checkBox6_decription, 6, 1)
 
         self.buttonSubscribeML = QPushButton('&Subscribe')
         self.buttonSubscribeML.resize(self.buttonSubscribeML.minimumSizeHint())
@@ -52,7 +73,7 @@ class MainWindow(QWidget):
 
     def subscribeMailingList(self):
         check = 0
-        if not self.checkBox1.isChecked() and not self.checkBox2.isChecked():
+        if not self.checkBox1.isChecked() and not self.checkBox2.isChecked() and not self.checkBox3.isChecked() and not self.checkBox4.isChecked() and not self.checkBox5.isChecked() and not self.checkBox6.isChecked():
             msgBox = QMessageBox()
             msgBox.setIcon(QMessageBox.Critical)
             msgBox.setWindowTitle('Error!')
@@ -78,6 +99,14 @@ class MainWindow(QWidget):
             optionList.append(self.checkBox1.text())
         if self.checkBox2.isChecked():
             optionList.append(self.checkBox2.text())
+        if self.checkBox3.isChecked():
+            optionList.append(self.checkBox3.text())
+        if self.checkBox4.isChecked():
+            optionList.append(self.checkBox4.text())
+        if self.checkBox5.isChecked():
+            optionList.append(self.checkBox5.text())
+        if self.checkBox6.isChecked():
+            optionList.append(self.checkBox6.text())
 
         if check == 2:
             value = mailingList.subscribe(self.editorUserEmail.text(), optionList)

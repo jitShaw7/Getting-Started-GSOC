@@ -113,7 +113,7 @@ class MainWindow(QWidget):
             if value == 1:
                 msgBox3 = QMessageBox()
                 msgBox3.setWindowTitle('Success!')
-                msgBox3.setText('Subscription Successful...')
+                msgBox3.setText('Please check your e-mail for confirming Subscription.')
                 msgBox3.setStandardButtons(QMessageBox.Ok)
                 msgBox3.exec_()
             else:
